@@ -1,0 +1,31 @@
+.toc {
+	border: 1px solid #ddd;
+	border-radius: 5px;
+}
+.toc-title {
+	cursor: pointer;
+	user-select: none;
+	font-size: 1.1em;
+	padding: .5em 1em;
+	border-radius: 5px;
+	background-position: 98.5% center;
+	background-repeat: no-repeat;
+	background-size: .9em;
+}
+.toc-content {
+	overflow: hidden;
+	transition: all .7s;
+}
+
+.toc-off .toc-content {
+	margin: 0;
+	height: 0;
+	opacity: 0;
+}
+
+.toc-on .toc-title {
+	background-image: url(./toc-on.png);
+}
+.toc-off .toc-title {
+	background-image: url(./toc-off.png);
+}
