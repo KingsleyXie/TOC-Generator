@@ -1,6 +1,6 @@
 var cssLink = document.createElement("link");
 cssLink.rel = "stylesheet";
-cssLink.href = "./assets/toc.css"
+cssLink.href = "../assets/toc.css"
 document.getElementsByTagName("head")[0].appendChild(cssLink);
 
 
