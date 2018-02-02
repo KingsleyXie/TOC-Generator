@@ -10,6 +10,11 @@ body {
 	margin: auto auto;
 }
 
+.toc-title {
+	font-size: 1.3em;
+	padding: .5em 1em !important;
+}
+
 .post-content {
 	margin-top: 20px;
 }
