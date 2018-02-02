@@ -1,84 +1,98 @@
 const config = {
 	"title": "Table Of Contents",
+	"placeholder": "[TOC]",
 	"contentWrapper": ".post-content"
 };
 
 var wrapper = $(config.contentWrapper);
-if ((wrapper.length == 1) &&
-	($(config.contentWrapper + ">:first-child").text() == '[TOC]')) {
-	$(config.contentWrapper + ">:first-child").remove();
 
-	var elements = wrapper.find(":header")
-		.filter(":not(blockquote :header)");
+if (wrapper.length == 1) {
+	var firstElement = config.contentWrapper + ">:first-child";
 
-	if (elements.length > 0) {
-		var TOC =
-		'<div class="toc toc-off">' +
-			'<div class="toc-title">' +
-				config.title +
-			'</div>' +
-			'<ul class="toc-content">';
+	//Check if the first element's text matches TOC placeholder
+	if ($(firstElement).text() == config.placeholder) {
+		//Select all headings except those inside blockquotes
+		var elements = wrapper.find(":header")
+			.filter(":not(blockquote :header)");
 
-		var currHeading = elements[0].nodeName;
-		var records = new Array();
+		if (elements.length > 0) {
+			//Remove the placeholder
+			$(firstElement).remove();
 
-		$.each(elements, function(key, content) {
-			var text = content.innerText;
-			var link = '<a href="#' + text + '">' + text  + '</a>';
-			content.id = text;
+			var TOC =
+			'<div class="toc toc-off">' +
+				'<div class="toc-title">' +
+					config.title +
+				'</div>' +
+				'<ul class="toc-content">';
 
-			switch (currHeading.localeCompare(content.nodeName)) {
-				case 0:
-					TOC += '</li><li>' + link;
-					break;
+			var currHeading = elements[0].nodeName;
+			var records = new Array();
 
-				case 1:
-					currHeading = content.nodeName;
+			$.each(elements, function(key, content) {
+				var text = content.innerText;
+				//Generate the link code
+				var link = '<a href="#' + text + '">' + text  + '</a>';
+				//Set an anchor for current heading
+				content.id = text;
 
-					if (!records.includes(currHeading)) {
-						console.warn(
-							'There may be some problem ' +
-							'with your heading structure, ' +
-							'so the generated TOC is not guaranteed ' +
-							'to be in right order.'
-						);
-					}
+				switch (currHeading.localeCompare(content.nodeName)) {
+					//Same level heading
+					case 0:
+						TOC += '</li><li>' + link;
+						break;
 
-					while (records.includes(currHeading)) {
-						TOC += '</li></ul>';
-						records.pop();
-					}
-					TOC += '<li>' + link;
-					break;
+					//Upper level heading
+					case 1:
+						currHeading = content.nodeName;
 
-				case -1:
-					TOC += '<ul><li>' + link;
-					records.push(currHeading);
-					currHeading = content.nodeName;
-					break;
-			}
-		});
+						if (!records.includes(currHeading)) {
+							console.warn(
+								'There may be some problem ' +
+								'with the structure of your headings, ' +
+								'so the generated TOC is not ' +
+								'guaranteed to be in right order.'
+							);
+						}
 
-		TOC += '</ul></div>';
-		$(config.contentWrapper + ">:first-child").before(TOC);
+						//Cancel the indentation until heading level meets
+						while (records.includes(currHeading)) {
+							TOC += '</li></ul>';
+							records.pop();
+						}
+						TOC += '<li>' + link;
+						break;
 
-		$(".toc-title").click(function () {
-			var toc = $(".toc");
-			toc.toggleClass("toc-off");
-			toc.toggleClass("toc-on");
-		});
-	} else {
-		console.warn('No heading found to generate TOC.');
+					//Lower level heading
+					case -1:
+						//Indent for once
+						TOC += '<ul><li>' + link;
+						records.push(currHeading);
+						currHeading = content.nodeName;
+						break;
+				}
+			});
+
+			TOC += '</ul></div>';
+			$(firstElement).before(TOC);
+
+			$(".toc-title").click(function () {
+				var toc = $(".toc");
+				toc.toggleClass("toc-off");
+				toc.toggleClass("toc-on");
+			});
+		} else {
+			console.warn('No heading found to generate TOC.');
+		}
 	}
 } else {
-	if (wrapper.length != 1) {
-		console.warn(
-			'The provided Selector `' +
-			config.contentWrapper + '` ' +
-			(
-				wrapper.length == 0 ?
-				'is not valid.' : 'matches multiple elements'
-			)
-		);
-	}
+	//Exception handler(warning in console)
+	console.warn(
+		'The provided Selector `' +
+		config.contentWrapper + '` matches' +
+		(
+			wrapper.length == 0 ?
+			'no element.' : 'multiple elements.'
+		)
+	);
 }
