@@ -1,28 +1,13 @@
 @media (min-width: 520px) {
-	body {
-		width: 65%;
-	}
-	header {
-		display: none;
-	}
+	body { width: 65%; }
+	header { display: none; }
 }
 @media (max-width: 520px) {
-	header {
-		color: white;
-		font-size: 2.3em;
-		padding: 15px 0;
-		text-align: center;
-		background: linear-gradient(40deg,#FFD86F,#FC6262);
-	}
-	header a {
-		color: inherit;
-		user-select: none;
-		text-decoration: none;
-	}
 	.buttons {
 		justify-content: space-around !important;
 	}
 }
+
 body {
 	font-family: monospace;
 	margin: auto auto;
@@ -33,7 +18,18 @@ body {
 .post-content > h1,h2,h3,h4,h5,h6 {
 	margin-left: 1rem;
 }
-
+header {
+	color: white;
+	font-size: 2.3em;
+	padding: 15px 0;
+	text-align: center;
+	background: linear-gradient(40deg,#FFD86F,#FC6262);
+}
+header a {
+	color: inherit;
+	user-select: none;
+	text-decoration: none;
+}
 .info {
 	text-align: center;
 	font-size: 15px;
@@ -42,11 +38,14 @@ body {
 hr {
 	height: 2px;
 	border: none;
-	background: rgba(255, 152, 0, 0.7) repeating-linear-gradient(-45deg,#fff,#fff .25rem, transparent .25rem, transparent .5rem);
+	background-color: rgba(255, 152, 0, 0.7);
+	background-image: repeating-linear-gradient(
+		-45deg,#fff,#fff .25rem,
+		transparent .25rem,
+		transparent .5rem
+	);
 }
-a {
-	color: inherit;
-}
+
 .buttons {
 	display: flex;
 	flex-wrap: wrap;
@@ -58,6 +57,7 @@ a {
 	user-select: none;
 	outline: none;
 	color: #FF9800;
+	padding: 7px;
 	border-color: #FF9800;
 	border-style: solid;
 	border-radius: 3px;
@@ -68,12 +68,7 @@ a {
 .buttons button:hover {
 	box-shadow: 0 5px 7px rgba(0,0,0,0.15);
 }
-.btn-heading button {
-	color: #5d5d5d;
-	border-color: #9a9a9a;
-}
-button,
-select {
-	padding: 7px;
-	border-radius: 3px;
+.headings button {
+	color: #5d5d5d !important;
+	border-color: #9a9a9a !important;
 }

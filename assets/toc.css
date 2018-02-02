@@ -1,6 +1,10 @@
+/* TOC Base Style */
 .toc {
-	border: 1px solid #ddd;
-	border-radius: 5px;
+	width: 100%;
+	border-color: #ddd;
+	border-style: solid;
+	border-width: .7px;
+	border-radius: 3px;
 }
 .toc-title {
 	cursor: pointer;
@@ -12,17 +16,28 @@
 	background-repeat: no-repeat;
 	background-size: .9em;
 }
+
+/* Link & Hover Style */
+.toc-content a {
+	color: inherit;
+	text-decoration: none;
+}
+.toc-content a:hover {
+	text-decoration: underline;
+}
+
+/* Implementation For Status Toggling */
 .toc-content {
 	overflow: hidden;
 	transition: all .7s;
 }
-
 .toc-off .toc-content {
 	margin: 0;
 	height: 0;
 	opacity: 0;
 }
 
+/* Both Icons Of TOC Title Statuses*/
 .toc-on .toc-title {
 	background-image: url(./toc-on.png);
 }

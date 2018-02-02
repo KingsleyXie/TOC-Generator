@@ -1,10 +1,3 @@
-$("<link/>", {
-	rel: "stylesheet",
-	href: "./assets/toc.css"
-}).appendTo("head");
-
-
-
 const config = {
 	"title": "Table Of Contents",
 	"contentWrapper": ".post-content"

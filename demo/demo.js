@@ -5,7 +5,7 @@ const config = {
 
 
 
-document.querySelectorAll(".btn-heading>button")
+document.querySelectorAll(".headings>button")
 .forEach(function(btn) {
 	btn.addEventListener('click', function () {
 		addHeading(this.innerText);
@@ -127,8 +127,10 @@ document.getElementById("btn-gen")
 
 document.getElementById("btn-rst")
 .addEventListener('click', function () {
-	document.querySelector(config.contentWrapper)
-	.innerHTML = '<p>[TOC]</p>';
+	if (confirm('Are you sure to reset the contents?')) {
+		document.querySelector(config.contentWrapper)
+		.innerHTML = '<p>[TOC]</p>';
+	}
 });
 
 function addHeading(val) {
