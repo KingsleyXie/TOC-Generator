@@ -1,11 +1,25 @@
+const config = {
+	"title": "Table Of Contents",
+	"contentWrapper": ".post-content"
+};
+
+
+
 var cssLink = document.createElement("link");
 cssLink.rel = "stylesheet";
 cssLink.href = "../assets/toc.css"
 document.getElementsByTagName("head")[0].appendChild(cssLink);
 
-function addHeading() {
-	var val = document.getElementById("selection").value;
 
+
+document.querySelectorAll(".btn-heading>button")
+.forEach(function(btn) {
+	btn.addEventListener('click', function () {
+		addHeading(this.innerText);
+	});
+});
+
+function addHeading(val) {
 	if (typeof(headings) == 'undefined')
 		headings = new Array();
 	if (typeof(preHeading) == 'undefined')
@@ -54,11 +68,6 @@ function generateTOC() {
 		existedTOC.insertAdjacentHTML('beforebegin', '<p>[TOC]</p>');
 		existedTOC.parentNode.removeChild(existedTOC);
 	}
-
-	const config = {
-		"title": "Table Of Contents",
-		"contentWrapper": ".post-content"
-	};
 
 	var wrapper = document.querySelectorAll(config.contentWrapper);
 	if ((wrapper.length == 1) &&
@@ -163,4 +172,9 @@ function generateTOC() {
 			);
 		}
 	}
+}
+
+function resetContents() {
+	document.querySelector(config.contentWrapper)
+	.innerHTML = '<p>[TOC]</p>';
 }

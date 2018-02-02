@@ -38,6 +38,9 @@ hr {
 	border: none;
 	background: rgba(255, 152, 0, 0.7) repeating-linear-gradient(-45deg,#fff,#fff .25rem, transparent .25rem, transparent .5rem);
 }
+a {
+	color: inherit;
+}
 .buttons {
 	display: flex;
 	flex-wrap: wrap;
