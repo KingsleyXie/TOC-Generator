@@ -4,10 +4,10 @@ function loadJQuery() {
 	ele.src = 'https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js';
 	document.getElementsByTagName("head")[0].appendChild(ele);
 }
-
-
-
 loadJQuery();
+
+
+
 function addHeading() {
 	var val = document.getElementById("selection").value;
 
