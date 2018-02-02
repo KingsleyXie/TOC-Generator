@@ -3,22 +3,6 @@ cssLink.rel = "stylesheet";
 cssLink.href = "../assets/toc.css"
 document.getElementsByTagName("head")[0].appendChild(cssLink);
 
-
-
-if (window.innerWidth < 520) {
-	document.body.innerHTML = '';
-	var ele = document.createElement("center");
-	var txt = document.createTextNode(
-		'Sorry, this demo is shown for desktops only.'
-	);
-
-	ele.style.margin = 'calc((100vh - 1em) / 2) auto 0';
-	ele.appendChild(txt);
-	document.body.appendChild(ele);
-}
-
-
-
 function addHeading() {
 	var val = document.getElementById("selection").value;
 

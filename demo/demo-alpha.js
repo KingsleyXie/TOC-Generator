@@ -1,19 +1,3 @@
-if (window.innerWidth < 520) {
-	document.body.innerHTML = '';
-	var ele = document.createElement("center");
-	var txt = document.createTextNode(
-		'Sorry, this demo is shown for desktops only.'
-	);
-
-	ele.style.margin = 'calc((100vh - 1em) / 2) auto 0';
-	ele.appendChild(txt);
-	document.body.appendChild(ele);
-} else {
-	loadJQuery();
-}
-
-
-
 function loadJQuery() {
 	var ele = document.createElement("script");
 	ele.type = 'text/javascript';
@@ -23,6 +7,7 @@ function loadJQuery() {
 
 
 
+loadJQuery();
 function addHeading() {
 	var val = document.getElementById("selection").value;
 
