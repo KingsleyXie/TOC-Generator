@@ -1,10 +1,7 @@
 @media (min-width: 520px) {
-	body { width: 65%; }
-	header { display: none; }
-}
-@media (max-width: 520px) {
-	.buttons {
-		justify-content: space-around !important;
+	main {
+		width: 65%;
+		margin: auto auto;
 	}
 }
 
@@ -12,29 +9,33 @@ body {
 	font-family: monospace;
 	margin: auto auto;
 }
+
 .post-content {
 	margin-top: 20px;
 }
 .post-content > h1,h2,h3,h4,h5,h6 {
 	margin-left: 1rem;
 }
+
 header {
-	color: white;
-	font-size: 2.3em;
+	color: #fff;
 	padding: 15px 0;
+	font-size: 2.3em;
 	text-align: center;
-	background: linear-gradient(40deg,#FFD86F,#FC6262);
+	background: linear-gradient(40deg,#ffd86f,#fc6262);
 }
 header a {
 	color: inherit;
 	user-select: none;
 	text-decoration: none;
 }
-.info {
+
+main > p {
 	text-align: center;
 	font-size: 15px;
 	color: #5d5d5d;
 }
+
 hr {
 	height: 2px;
 	border: none;
@@ -48,27 +49,27 @@ hr {
 
 .buttons {
 	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
+	justify-content: space-around;
 	margin: 15px 0;
 }
-.buttons button {
+.buttons > button {
+	padding: 7px;
+	color: #ff9800;
+	outline: none;
 	cursor: pointer;
 	user-select: none;
-	outline: none;
-	color: #FF9800;
-	padding: 7px;
-	border-color: #FF9800;
-	border-style: solid;
 	border-radius: 3px;
+	border-style: solid;
+	border-color: #ff9800;
 	background-color: transparent;
 	box-shadow: 0 1.5px 3px rgba(0,0,0,0.1);
 	transition: all .3s;
 }
-.buttons button:hover {
+.buttons > button:hover {
 	box-shadow: 0 5px 7px rgba(0,0,0,0.15);
 }
-.headings button {
+
+.headings > button {
 	color: #5d5d5d !important;
 	border-color: #9a9a9a !important;
 }

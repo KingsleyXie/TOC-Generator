@@ -168,7 +168,7 @@ function addHeading(val) {
 function addElement(val) {
 	var ele = document.createElement(val);
 	var txt = document.createTextNode(
-		Math.random().toString(36).substr(2, 11) + ' ' + val
+		Math.random().toString(36).substr(2, 7) + ' ' + val
 	);
 	ele.appendChild(txt);
 
