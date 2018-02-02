@@ -7,7 +7,7 @@
 	<style>
 		@media (min-width: 520px) {
 			body {
-				width: 65%;
+				width: 70%;
 			}
 		}
 		body {
@@ -20,20 +20,21 @@
 <body>
 	<br><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut similique, quia? Dignissimos ad at explicabo neque ex. Error deserunt, illo voluptatum. Possimus vero, magni optio corporis aspernatur impedit sit beatae!</p><br>
 
-	<p>
-		Choose the heading size you want to add:
-		<select id="selection" onchange="addHeading();">
-			<option value="h1">h1</option>
-			<option value="h2">h2</option>
-			<option value="h3">h3</option>
-			<option value="h4">h4</option>
-			<option value="h5">h5</option>
-			<option value="h6">h6</option>
-		</select>
+	Choose the heading size you want to add:
+	<select id="selection" onchange="addHeading();">
+		<option value="h1">h1</option>
+		<option value="h2">h2</option>
+		<option value="h3">h3</option>
+		<option value="h4">h4</option>
+		<option value="h5">h5</option>
+		<option value="h6">h6</option>
+	</select>
 
-		<button onclick="addHeading();">Add</button>
-		<button style="float: right;" onclick="generateTOC();">Generate TOC</button>
-	</p>
+	<div class="buttons">
+		<button onclick="addHeading();">Add Heading</button>
+		<button onclick="generateTOC();">Generate TOC</button>
+		<button onclick="resetContents();">Reset Contents</button>
+	</div>
 
 	<hr><section class="post-content"><p>[TOC]</p></section>
 
