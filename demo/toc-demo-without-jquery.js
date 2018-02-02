@@ -6,34 +6,53 @@ const config = {
 
 
 
-$("#btn-gen").click(function () {
+document.getElementById("btn-gen")
+.addEventListener('click', function () {
 	//Remove current TOC to generate a new one
-	var existedTOC = $(".toc");
-	if (existedTOC.length != 0) {
-		existedTOC.before(
+	var existedTOC = document.querySelector(".toc");
+	if (existedTOC != null) {
+		existedTOC.insertAdjacentHTML(
+			'beforebegin',
 			'<p>' + config.placeholder + '</p>'
 		);
-		existedTOC.remove();
+		existedTOC.parentNode.removeChild(existedTOC);
 	}
 
-	var wrapper = $(config.contentWrapper);
+	var wrapper = document.querySelectorAll(config.contentWrapper);
 	if (wrapper.length == 1) {
-		var firstElement = config.contentWrapper + ">:first-child";
+		var firstElement = wrapper[0].firstElementChild;
 
 		//Check if the first element's text matches TOC placeholder
-		if ($(firstElement).text() == config.placeholder) {
+		if (firstElement.innerText == config.placeholder) {
 			//Select all headings except those inside blockquotes
-			var elements = wrapper.find(":header")
-				.filter(":not(blockquote :header)");
+			var elements = Array.prototype.filter.call(
+				wrapper[0].querySelectorAll("h1,h2,h3,h4,h5,h6"),
+				function(ele) {
+					var result = true;
+
+					document.querySelectorAll("blockquote")
+					.forEach(function(bq) {
+						bq.querySelectorAll("h1,h2,h3,h4,h5,h6")
+						.forEach(function(v) {
+							if (ele == v) result = false;
+						});
+					});
+
+					return result;
+				}
+			);
 
 			if (elements.length > 0) {
 				//Remove the placeholder
-				$(firstElement).remove();
+				wrapper[0].removeChild(firstElement);
 
 				//Get the current TOC status class
 				var statusClass =
-				existedTOC.hasClass("toc-on") ?
-				'toc-on' : 'toc-off';
+				existedTOC == null ? 'toc-off' :
+				(
+					existedTOC.classList.contains("toc-on") ?
+					'toc-on' : 'toc-off'
+				);
 
 				var TOC =
 				'<div class="toc ' + statusClass + '">' +
@@ -45,7 +64,7 @@ $("#btn-gen").click(function () {
 				var currHeading = elements[0].nodeName;
 				var records = new Array();
 
-				$.each(elements, function(key, content) {
+				elements.forEach(function(content) {
 					var text = content.innerText;
 					//Generate the link code
 					var link = '<a href="#' + text + '">' + text  + '</a>';
@@ -90,12 +109,14 @@ $("#btn-gen").click(function () {
 				});
 
 				TOC += '</ul></div>';
-				$(firstElement).before(TOC);
+				document.querySelector(config.contentWrapper).children[0]
+				.insertAdjacentHTML('beforebegin', TOC);
 
-				$(".toc-title").click(function () {
-					var toc = $(".toc");
-					toc.toggleClass("toc-off");
-					toc.toggleClass("toc-on");
+				document.querySelector(".toc-title")
+				.addEventListener('click', function () {
+					var toc = document.querySelector(".toc");
+					toc.classList.toggle("toc-off");
+					toc.classList.toggle("toc-on");
 				});
 			} else {
 				console.warn('No heading found to generate TOC.');
@@ -114,54 +135,57 @@ $("#btn-gen").click(function () {
 	}
 });
 
-$("#btn-rst").click(function () {
+document.getElementById("btn-rst")
+.addEventListener('click', function () {
 	if (confirm('Are you sure to reset the contents?')) {
-		$(config.contentWrapper).html(
-			'<p>' + config.placeholder + '</p>'
-		);
+		document.querySelector(config.contentWrapper)
+		.innerHTML = '<p>' + config.placeholder + '</p>';
 
 		//Reset heading status to have a entirely clear
-		//See line xxx to line xxx
+		//See line 156 to line 159
 		delete headings;
 		delete preHeading;
 	}
 });
 
-$(".headings>button").click(function () {
-	var hd = this.innerText;
+document.querySelectorAll(".headings>button")
+.forEach(function(btn) {
+	btn.addEventListener('click', function () {
+		var hd = this.innerText;
 
-	if (typeof(headings) == 'undefined')
-		headings = new Array();
-	if (typeof(preHeading) == 'undefined')
-		preHeading = hd;
-
-	switch (preHeading.localeCompare(hd)) {
-		case 0:
-			addElement(hd);
-			break;
-
-		case 1:
-			if (!headings.includes(hd)) {
-				alert(
-					'This kind of heading ' +
-					'structure is not supported.'
-				);
-				return;
-			}
-
+		if (typeof(headings) == 'undefined')
+			headings = new Array();
+		if (typeof(preHeading) == 'undefined')
 			preHeading = hd;
-			while (headings.includes(preHeading)) {
-				headings.pop();
-			}
-			addElement(hd);
-			break;
 
-		case -1:
-			headings.push(preHeading);
-			preHeading = hd;
-			addElement(hd);
-			break;
-	}
+		switch (preHeading.localeCompare(hd)) {
+			case 0:
+				addElement(hd);
+				break;
+
+			case 1:
+				if (!headings.includes(hd)) {
+					alert(
+						'This kind of heading ' +
+						'structure is not supported.'
+					);
+					return;
+				}
+
+				preHeading = hd;
+				while (headings.includes(preHeading)) {
+					headings.pop();
+				}
+				addElement(hd);
+				break;
+
+			case -1:
+				headings.push(preHeading);
+				preHeading = hd;
+				addElement(hd);
+				break;
+		}
+	});
 });
 
 function addElement(hd) {
