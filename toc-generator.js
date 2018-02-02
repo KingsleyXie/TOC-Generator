@@ -5,7 +5,6 @@ const config = {
 };
 
 var wrapper = $(config.contentWrapper);
-
 if (wrapper.length == 1) {
 	var firstElement = config.contentWrapper + ">:first-child";
 
