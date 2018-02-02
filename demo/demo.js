@@ -5,13 +5,6 @@ const config = {
 
 
 
-var cssLink = document.createElement("link");
-cssLink.rel = "stylesheet";
-cssLink.href = "../assets/toc.css"
-document.getElementsByTagName("head")[0].appendChild(cssLink);
-
-
-
 document.querySelectorAll(".btn-heading>button")
 .forEach(function(btn) {
 	btn.addEventListener('click', function () {
@@ -19,50 +12,8 @@ document.querySelectorAll(".btn-heading>button")
 	});
 });
 
-function addHeading(val) {
-	if (typeof(headings) == 'undefined')
-		headings = new Array();
-	if (typeof(preHeading) == 'undefined')
-		preHeading = val;
-
-	switch (preHeading.localeCompare(val)) {
-		case 0:
-			addElement(val);
-			break;
-
-		case 1:
-			if (!headings.includes(val)) {
-				alert('This kind of heading structure is not supported.');
-				return;
-			}
-
-			preHeading = val;
-			while (headings.includes(preHeading)) {
-				headings.pop();
-			}
-			addElement(val);
-			break;
-
-		case -1:
-			headings.push(preHeading);
-			preHeading = val;
-			addElement(val);
-			break;
-	}
-}
-
-function addElement(val) {
-	var ele = document.createElement(val);
-	var txt = document.createTextNode(
-		Math.random().toString(36).substr(2, 11) + ' ' + val
-	);
-	ele.appendChild(txt);
-
-	var post = document.querySelector(".post-content");
-	post.appendChild(ele);
-}
-
-function generateTOC() {
+document.getElementById("btn-gen")
+.addEventListener('click', function () {
 	var existedTOC = document.querySelector(".toc");
 	if (existedTOC != null) {
 		existedTOC.insertAdjacentHTML('beforebegin', '<p>[TOC]</p>');
@@ -72,8 +23,6 @@ function generateTOC() {
 	var wrapper = document.querySelectorAll(config.contentWrapper);
 	if ((wrapper.length == 1) &&
 		(wrapper[0].firstElementChild.innerText == '[TOC]')) {
-		wrapper[0].removeChild(wrapper[0].firstElementChild);
-
 		var elements = Array.prototype.filter.call(
 			wrapper[0].querySelectorAll("h1,h2,h3,h4,h5,h6"),
 			function(ele) {
@@ -92,6 +41,8 @@ function generateTOC() {
 		);
 
 		if (elements.length > 0) {
+			wrapper[0].removeChild(wrapper[0].firstElementChild);
+
 			var TOC =
 			'<div class="toc ' +
 			(
@@ -172,9 +123,53 @@ function generateTOC() {
 			);
 		}
 	}
-}
+});
 
-function resetContents() {
+document.getElementById("btn-rst")
+.addEventListener('click', function () {
 	document.querySelector(config.contentWrapper)
 	.innerHTML = '<p>[TOC]</p>';
+});
+
+function addHeading(val) {
+	if (typeof(headings) == 'undefined')
+		headings = new Array();
+	if (typeof(preHeading) == 'undefined')
+		preHeading = val;
+
+	switch (preHeading.localeCompare(val)) {
+		case 0:
+			addElement(val);
+			break;
+
+		case 1:
+			if (!headings.includes(val)) {
+				alert('This kind of heading structure is not supported.');
+				return;
+			}
+
+			preHeading = val;
+			while (headings.includes(preHeading)) {
+				headings.pop();
+			}
+			addElement(val);
+			break;
+
+		case -1:
+			headings.push(preHeading);
+			preHeading = val;
+			addElement(val);
+			break;
+	}
+}
+
+function addElement(val) {
+	var ele = document.createElement(val);
+	var txt = document.createTextNode(
+		Math.random().toString(36).substr(2, 11) + ' ' + val
+	);
+	ele.appendChild(txt);
+
+	var post = document.querySelector(".post-content");
+	post.appendChild(ele);
 }
