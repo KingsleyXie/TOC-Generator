@@ -4,33 +4,19 @@ const config = {
 	"contentWrapper": ".post-content"
 };
 
-var wrapper = document.querySelectorAll(config.contentWrapper);
+var wrapper = $(config.contentWrapper);
 if (wrapper.length == 1) {
-	var firstElement = wrapper[0].firstElementChild;
+	var firstElement = config.contentWrapper + ">:first-child";
 
 	//Check if the first element's text matches TOC placeholder
-	if (firstElement.innerText == config.placeholder) {
+	if ($(firstElement).text() == config.placeholder) {
 		//Select all headings except those inside blockquotes
-		var elements = Array.prototype.filter.call(
-			wrapper[0].querySelectorAll("h1,h2,h3,h4,h5,h6"),
-			function(ele) {
-				var result = true;
-
-				document.querySelectorAll("blockquote")
-				.forEach(function(bq) {
-					bq.querySelectorAll("h1,h2,h3,h4,h5,h6")
-					.forEach(function(v) {
-						if (ele == v) result = false;
-					});
-				});
-
-				return result;
-			}
-		);
+		var elements = wrapper.find(":header")
+			.filter(":not(blockquote :header)");
 
 		if (elements.length > 0) {
 			//Remove the placeholder
-			wrapper[0].removeChild(firstElement);
+			$(firstElement).remove();
 
 			var TOC =
 			'<div class="toc toc-off">' +
@@ -42,7 +28,7 @@ if (wrapper.length == 1) {
 			var currHeading = elements[0].nodeName;
 			var records = new Array();
 
-			elements.forEach(function(content) {
+			$.each(elements, function(key, content) {
 				var text = content.innerText;
 				//Generate the link code
 				var link = '<a href="#' + text + '">' + text  + '</a>';
@@ -87,14 +73,12 @@ if (wrapper.length == 1) {
 			});
 
 			TOC += '</ul></div>';
-			document.querySelector(config.contentWrapper).children[0]
-			.insertAdjacentHTML('beforebegin', TOC);
+			$(firstElement).before(TOC);
 
-			document.querySelector(".toc-title")
-			.addEventListener('click', function () {
-				var toc = document.querySelector(".toc");
-				toc.classList.toggle("toc-off");
-				toc.classList.toggle("toc-on");
+			$(".toc-title").click(function () {
+				var toc = $(".toc");
+				toc.toggleClass("toc-off");
+				toc.toggleClass("toc-on");
 			});
 		} else {
 			console.warn('No heading found to generate TOC.');

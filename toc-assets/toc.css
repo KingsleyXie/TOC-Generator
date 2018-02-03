@@ -3,8 +3,7 @@
 	margin-bottom: 1em;
 }
 .toc-on > .toc-content {
-	margin-top: 1em;
-	margin-left: 1em;
+	margin: 1em;
 }
 .toc-content li {
 	margin: 0;
@@ -24,7 +23,7 @@
 	font-size: 1.1em;
 	padding: .3em 1em;
 	border-radius: 5px;
-	background-position: 98.5% center;
+	background-position: 98% center;
 	background-repeat: no-repeat;
 	background-size: .9em;
 }
