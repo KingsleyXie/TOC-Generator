@@ -18,10 +18,10 @@ Here is a preview picture of demo page:
 More details or ideas can be found in my [blog](https://kingsleyxie.cn/implement-a-toc-generator-for-my-blog) if you are interested.
 
 ### Customization
-There is a `config` constant inside Javascript code:
+There is a `tocConf` constant inside Javascript code:
 
 ```javascript
-const config = {
+const tocConf = {
     "title": "Table Of Contents",
     "placeholder": "[TOC]",
     "contentWrapper": ".post-content"

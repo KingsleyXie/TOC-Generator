@@ -1,15 +1,15 @@
-const config = {
+const tocConf = {
 	"title": "Table Of Contents",
 	"placeholder": "[TOC]",
 	"contentWrapper": ".post-content"
 };
 
-var wrapper = $(config.contentWrapper);
+var wrapper = $(tocConf.contentWrapper);
 if (wrapper.length == 1) {
-	var firstElement = config.contentWrapper + ">:first-child";
+	var firstElement = tocConf.contentWrapper + ">:first-child";
 
 	//Check if the first element's text matches TOC placeholder
-	if ($(firstElement).text() == config.placeholder) {
+	if ($(firstElement).text() == tocConf.placeholder) {
 		//Select all headings except those inside blockquotes
 		var elements = wrapper.find(":header")
 			.filter(":not(blockquote :header)");
@@ -21,7 +21,7 @@ if (wrapper.length == 1) {
 			var TOC =
 			'<div class="toc toc-off">' +
 				'<div class="toc-title">' +
-					config.title +
+					tocConf.title +
 				'</div>' +
 				'<ul class="toc-content">';
 
@@ -30,9 +30,12 @@ if (wrapper.length == 1) {
 
 			$.each(elements, function(key, content) {
 				var text = content.innerText;
-				//Generate the link code
-				var link = '<a href="#' + text + '">' + text  + '</a>';
-				//Set an anchor for current heading
+
+				//Escape double quotes
+				var anc = text.replace(/"/g, '&quot;');
+
+				//Generate the link code and set the anchor
+				var link = '<a href="#' + anc + '">' + text  + '</a>';
 				content.id = text;
 
 				switch (currHeading.localeCompare(content.nodeName)) {
@@ -88,7 +91,7 @@ if (wrapper.length == 1) {
 	//Exception handler(warning in console)
 	console.warn(
 		'The provided Selector `' +
-		config.contentWrapper + '` matches' +
+		tocConf.contentWrapper + '` matches' +
 		(
 			wrapper.length == 0 ?
 			'no element.' : 'multiple elements.'

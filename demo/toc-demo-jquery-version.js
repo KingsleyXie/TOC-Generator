@@ -1,4 +1,4 @@
-const config = {
+const tocConf = {
 	"title": "Table Of Contents",
 	"placeholder": "[TOC]",
 	"contentWrapper": ".post-content"
@@ -11,17 +11,17 @@ $("#btn-gen").click(function () {
 	var existedTOC = $(".toc");
 	if (existedTOC.length != 0) {
 		existedTOC.before(
-			'<p>' + config.placeholder + '</p>'
+			'<p>' + tocConf.placeholder + '</p>'
 		);
 		existedTOC.remove();
 	}
 
-	var wrapper = $(config.contentWrapper);
+	var wrapper = $(tocConf.contentWrapper);
 	if (wrapper.length == 1) {
-		var firstElement = config.contentWrapper + ">:first-child";
+		var firstElement = tocConf.contentWrapper + ">:first-child";
 
 		//Check if the first element's text matches TOC placeholder
-		if ($(firstElement).text() == config.placeholder) {
+		if ($(firstElement).text() == tocConf.placeholder) {
 			//Select all headings except those inside blockquotes
 			var elements = wrapper.find(":header")
 				.filter(":not(blockquote :header)");
@@ -38,7 +38,7 @@ $("#btn-gen").click(function () {
 				var TOC =
 				'<div class="toc ' + statusClass + '">' +
 					'<div class="toc-title">' +
-						config.title +
+						tocConf.title +
 					'</div>' +
 					'<ul class="toc-content">';
 
@@ -47,9 +47,12 @@ $("#btn-gen").click(function () {
 
 				$.each(elements, function(key, content) {
 					var text = content.innerText;
-					//Generate the link code
-					var link = '<a href="#' + text + '">' + text  + '</a>';
-					//Set an anchor for current heading
+
+					//Escape double quotes
+					var anc = text.replace(/"/g, '&quot;');
+
+					//Generate the link code and set the anchor
+					var link = '<a href="#' + anc + '">' + text  + '</a>';
 					content.id = text;
 
 					switch (currHeading.localeCompare(content.nodeName)) {
@@ -105,7 +108,7 @@ $("#btn-gen").click(function () {
 		//Exception handler(warning in console)
 		console.warn(
 			'The provided Selector `' +
-			config.contentWrapper + '` matches' +
+			tocConf.contentWrapper + '` matches' +
 			(
 				wrapper.length == 0 ?
 				'no element.' : 'multiple elements.'
@@ -116,8 +119,8 @@ $("#btn-gen").click(function () {
 
 $("#btn-rst").click(function () {
 	if (confirm('Are you sure to reset the contents?')) {
-		$(config.contentWrapper).html(
-			'<p>' + config.placeholder + '</p>'
+		$(tocConf.contentWrapper).html(
+			'<p>' + tocConf.placeholder + '</p>'
 		);
 
 		//Reset heading status to have a entirely clear

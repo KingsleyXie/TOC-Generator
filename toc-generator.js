@@ -1,15 +1,15 @@
-const config = {
+const tocConf = {
 	"title": "Table Of Contents",
 	"placeholder": "[TOC]",
 	"contentWrapper": ".post-content"
 };
 
-var wrapper = document.querySelectorAll(config.contentWrapper);
+var wrapper = document.querySelectorAll(tocConf.contentWrapper);
 if (wrapper.length == 1) {
 	var firstElement = wrapper[0].firstElementChild;
 
 	//Check if the first element's text matches TOC placeholder
-	if (firstElement.innerText == config.placeholder) {
+	if (firstElement.innerText == tocConf.placeholder) {
 		//Select all headings except those inside blockquotes
 		var elements = Array.prototype.filter.call(
 			wrapper[0].querySelectorAll("h1,h2,h3,h4,h5,h6"),
@@ -35,7 +35,7 @@ if (wrapper.length == 1) {
 			var TOC =
 			'<div class="toc toc-off">' +
 				'<div class="toc-title">' +
-					config.title +
+					tocConf.title +
 				'</div>' +
 				'<ul class="toc-content">';
 
@@ -44,9 +44,12 @@ if (wrapper.length == 1) {
 
 			elements.forEach(function(content) {
 				var text = content.innerText;
-				//Generate the link code
-				var link = '<a href="#' + text + '">' + text  + '</a>';
-				//Set an anchor for current heading
+
+				//Escape double quotes
+				var anc = text.replace(/"/g, '&quot;');
+
+				//Generate the link code and set the anchor
+				var link = '<a href="#' + anc + '">' + text  + '</a>';
 				content.id = text;
 
 				switch (currHeading.localeCompare(content.nodeName)) {
@@ -87,7 +90,7 @@ if (wrapper.length == 1) {
 			});
 
 			TOC += '</ul></div>';
-			document.querySelector(config.contentWrapper).children[0]
+			document.querySelector(tocConf.contentWrapper).children[0]
 			.insertAdjacentHTML('beforebegin', TOC);
 
 			document.querySelector(".toc-title")
@@ -104,7 +107,7 @@ if (wrapper.length == 1) {
 	//Exception handler(warning in console)
 	console.warn(
 		'The provided Selector `' +
-		config.contentWrapper + '` matches' +
+		tocConf.contentWrapper + '` matches' +
 		(
 			wrapper.length == 0 ?
 			'no element.' : 'multiple elements.'
