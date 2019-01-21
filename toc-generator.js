@@ -60,7 +60,7 @@ if (wrapper.length == 1) {
 				var link = '<a href="#' + anc + '">' + text  + '</a>';
 				content.id = text;
 
-				switch (currHeading.localeCompare(content.nodeName)) {
+				switch (levelCompare(currHeading, content.nodeName)) {
 					//Same level heading
 					case 0:
 						TOC += '</li><li>' + link;
@@ -128,4 +128,10 @@ if (wrapper.length == 1) {
 			'no element.' : 'multiple elements.'
 		)
 	);
+}
+
+function levelCompare(heading1, heading2) {
+	if (heading1 === heading2) return 0;
+	if (heading1 < heading2) return -1;
+	return 1;
 }
