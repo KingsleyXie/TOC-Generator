@@ -46,6 +46,9 @@ document.getElementById("btn-gen")
 				//Remove the placeholder
 				wrapper[0].removeChild(firstElement);
 
+				var text = elements[0].innerText;
+				var link = '<a href="#' + text.replace(/"/g, '&quot;') + '">' + text  + '</a>';
+
 				//Get the current TOC status class
 				var statusClass =
 				existedTOC == null ? 'toc-off' :
@@ -59,16 +62,18 @@ document.getElementById("btn-gen")
 					'<div class="toc-title">' +
 						tocConf.title +
 					'</div>' +
-					'<ul class="toc-content">';
+					'<ul class="toc-content">' +
+					'<li>' + link;
 
 				var currHeading = elements[0].nodeName;
 				var records = new Array();
+				elements.shift();
 
 				elements.forEach(function(content) {
-					var text = content.innerText;
+					text = content.innerText;
 
 					//Escape double quotes
-					var anc = text.replace(/"/g, '&quot;');
+					anc = text.replace(/"/g, '&quot;');
 
 					//Generate the link code and set the anchor
 					var link = '<a href="#' + anc + '">' + text  + '</a>';
@@ -97,6 +102,7 @@ document.getElementById("btn-gen")
 							while (records.includes(currHeading)) {
 								TOC += '</li></ul>';
 								records.pop();
+								if (records.length == 0) TOC += '</li>';
 							}
 							TOC += '<li>' + link;
 							break;
@@ -111,7 +117,13 @@ document.getElementById("btn-gen")
 					}
 				});
 
-				TOC += '</ul></div>';
+				//Cancel all the indentation
+				while (records.length != 0) {
+					TOC += '</li></ul>';
+					records.pop();
+				}
+				TOC += '</li></ul></div>';
+
 				document.querySelector(tocConf.contentWrapper).children[0]
 				.insertAdjacentHTML('beforebegin', TOC);
 

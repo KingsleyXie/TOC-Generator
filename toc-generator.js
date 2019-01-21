@@ -32,21 +32,29 @@ if (wrapper.length == 1) {
 			//Remove the placeholder
 			wrapper[0].removeChild(firstElement);
 
+			// Add Some Temporary Fix For The Generator Problem
+			// TODO: I Shall Refactory It Later
+			// 20190121
+			var text = elements[0].innerText;
+			var link = '<a href="#' + text.replace(/"/g, '&quot;') + '">' + text  + '</a>';
+
 			var TOC =
 			'<div class="toc toc-off">' +
 				'<div class="toc-title">' +
 					tocConf.title +
 				'</div>' +
-				'<ul class="toc-content">';
+				'<ul class="toc-content">' +
+				'<li>' + link;
 
 			var currHeading = elements[0].nodeName;
 			var records = new Array();
+			elements.shift();
 
 			elements.forEach(function(content) {
-				var text = content.innerText;
+				text = content.innerText;
 
 				//Escape double quotes
-				var anc = text.replace(/"/g, '&quot;');
+				anc = text.replace(/"/g, '&quot;');
 
 				//Generate the link code and set the anchor
 				var link = '<a href="#' + anc + '">' + text  + '</a>';
@@ -75,6 +83,7 @@ if (wrapper.length == 1) {
 						while (records.includes(currHeading)) {
 							TOC += '</li></ul>';
 							records.pop();
+							if (records.length == 0) TOC += '</li>';
 						}
 						TOC += '<li>' + link;
 						break;
@@ -89,7 +98,13 @@ if (wrapper.length == 1) {
 				}
 			});
 
-			TOC += '</ul></div>';
+			//Cancel all the indentation
+			while (records.length != 0) {
+				TOC += '</li></ul>';
+				records.pop();
+			}
+			TOC += '</li></ul></div>';
+
 			document.querySelector(tocConf.contentWrapper).children[0]
 			.insertAdjacentHTML('beforebegin', TOC);
 
